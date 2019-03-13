@@ -80,4 +80,4 @@ theme: diaspora
 deploy:
   type: git
   repo: git@github.com:BruceLanCode/blog.git
-  branch: master
+  branch: publish

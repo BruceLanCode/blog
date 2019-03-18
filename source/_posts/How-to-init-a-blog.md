@@ -12,7 +12,7 @@ conver:
 
 首先考虑的是自己的博客放在哪里展示博客。本来一开始的时候是想在阿里云或者腾讯云购买一个服务器然后从零搭建一个属于自己的网站的，但是发现等了很久也没有特别有力的优惠活动，而且仔细想想目前也就只是想做自己的一个博客而已，只是静态文件的话其实利用GitHub Pages的功能也是可以了。所以就确定了运用github仓库来对外展示的自己博客的方案。
 
-GitHub Pages的服务是在项目仓库的Settings中可以设置，可以将项目源码托管在github中，然后通过设置相应的GitHub Pages功能来创建站点，一般情况下是设置master分支作为GitHub Pages的站点，设置成功后你的项目就可以通过 https://username.github.io/Repositoryname 来访问到项目master分支的文件了，非常简单方便。
+GitHub Pages的服务是在项目仓库的Settings中可以设置，可以将项目源码托管在github中，然后通过设置相应的GitHub Pages功能来创建站点，一般情况下是设置master分支作为GitHub Pages的站点，设置成功后你的项目就可以通过 `https://username.github.io/Repositoryname` 来访问到项目master分支的文件了，非常简单方便。
 
 ## Hexo
 
@@ -52,4 +52,31 @@ hexo init之后生成的项目的目录结构如下：
 
 ## gitalk
 
-有了hexo ＋ github pages，就已经可以制作并通过公开链接展示自己的博客了。然而分享出去的内容往往希望能得到读者的评论和反馈，于是我引入了gitalk作为博客的评论插件。
+有了Hexo ＋ github pages，就已经可以制作并通过公开链接展示自己的博客了。然而分享出去的内容往往希望能得到读者的评论和反馈，于是我引入了gitalk作为博客的评论插件。
+
+gitalk 是一个利用 Github API,基于 Github issue 和 Preact 开发的评论插件。他的主要特点就是使用Github登录，然后所有的评论都是提到了对应的issue中，非常简单方便。用以下代码就可以生成gitalk插件：
+
+```js
+var gitalk = new Gitalk({
+  clientID: 'GitHub Application Client ID',
+  clientSecret: 'GitHub Application Client Secret',
+  repo: 'GitHub repo',
+  owner: 'GitHub repo owner',
+  admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
+  id: location.pathname,      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
+})
+
+gitalk.render('gitalk-container')
+```
+
+不过在这之前是需要申请注册GitHub Application的，这样才能拿到上述代码中必须的参数`clientID`和`clientSecret`
+
+## 需要注意的地方
+
+最后，说一下自己在搭建博客的这个过程中都踩过的坑和需要注意的地方吧：
+
+1. 在设置GitHub Pages的时候，github会默认把项目发布到`https://username.github.io/Repositoryname`这个url上供互联网访问，但我更希望能通过自己的域名来访问，所以我就在阿里云上购买了一个域名，除了要在域名解析的时候通过CNAME类型指向到`username.github.io`,还要在GitHub Pages里设置Custom domain，保存自己的域名。需要把这两边的工作都做了才能通过自己的域名访问到自己的博客;
+2. 如果设置了自己的域名访问，项目的根目录将发生了变化，由原来的`/Repositoryname/`变成了`/`，所以_config.yml文件中url和root参数配置都要修改成对应的个性化域名和`/`，不然原本的资源路径都会报错；
+3. 同样因为设置了自己的域名，对应OAuth Apps中的Homepage URL和Authorization callback URL两个配置项都要修改成自己的域名，不然gitalk会授权失败，不能正常食用；
+4. Hexo的部署非常方便，是可以在一个分支上进行写作，在然后部署到另一条分支上（我就是在hexo分支上写作，部署到master分支，对应GitHub Pages设置的分支）。所以千万不要在部署配置中将branch设置填写为自己当前进行写作的分支，否则Hexo会将生成的站点文件推送至该分支下，并且完全覆盖该分支下的已有内容。

@@ -4,7 +4,7 @@ date: 2019-03-8 09:03:49
 tags:
   - 成长
   - 博客
-cover: /blog/static/blog/blog-cover.jpg
+cover: /static/blog/blog-cover.jpg
 ---
 
 ![blog pictrue](/static/blog/Blog.jpg)

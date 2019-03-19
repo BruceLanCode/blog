@@ -81,4 +81,4 @@ gitalk.render('gitalk-container')
 1. 在设置GitHub Pages的时候，github会默认把项目发布到`https://username.github.io/Repositoryname`这个url上供互联网访问，但我更希望能通过自己的域名来访问，所以我就在阿里云上购买了一个域名，除了要在域名解析的时候通过CNAME类型指向到`username.github.io`,还要在GitHub Pages里设置Custom domain，保存自己的域名。需要把这两边的工作都做了才能通过自己的域名访问到自己的博客;
 2. 如果设置了自己的域名访问，项目的根目录将发生了变化，由原来的`/Repositoryname/`变成了`/`，所以_config.yml文件中url和root参数配置都要修改成对应的个性化域名和`/`，不然原本的资源路径都会报错；
 3. 同样因为设置了自己的域名，对应OAuth Apps中的Homepage URL和Authorization callback URL两个配置项都要修改成自己的域名，不然gitalk会授权失败，不能正常食用；
-4. Hexo的部署非常方便，是可以在一个分支上进行写作，在然后部署到另一条分支上（我就是在hexo分支上写作，部署到master分支，对应GitHub Pages设置的分支）。所以千万不要在部署配置中将branch设置填写为自己当前进行写作的分支，否则Hexo会将生成的站点文件推送至该分支下，并且完全覆盖该分支下的已有内容。
+4. Hexo的部署非常方便，是可以在一个分支上进行写作，在然后部署到另一条分支上（我就是在hexo分支上写作，部署到master分支，对应GitHub Pages设置的分支）。所以千万不要在部署配置中将branch设置填写为自己当前进行写作的分支，否则Hexo会将生成的站点文件推送至该分支下，并且完全覆盖该分支下的已有内容。如果部署一直出问题的话，可以尝试删掉已经生成的.deploy_git文件，再执行`hexo deploy`命令试一试。

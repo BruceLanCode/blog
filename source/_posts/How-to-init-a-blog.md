@@ -1,10 +1,12 @@
 ---
-title: 搭建自己的博客网站
+title: 搭建个人博客的点滴
 date: 2019-03-17 08:19:47
 tags:
   - 博客
-conver: 
+conver: /static/How_to_init_a_blog/cover.jpg
 ---
+
+![blog pictrue](/static/How_to_init_a_blog/blogging.jpg)
 
 利用工作之余的零散时间，搭建起了博客，看似简单的操作，但也还是花了一周多的时间去折腾，还真是很多东西是要通过实践才能得到更有触感的认识。所以这次就记录一下自己是怎么去完成这个网站的以及踩过哪些坑。
 
@@ -16,7 +18,7 @@ GitHub Pages的服务是在项目仓库的Settings中可以设置，可以将项
 
 ## Hexo
 
-确定了用什么展示html之后，那用什么生成html呢？于是我选择了hexo作为自己博客的框架，官网对hexo的定义是:
+确定了用什么展示html之后，那用什么生成html呢？于是我选择了[Hexo](https://hexo.io/)作为自己博客的框架，官网对Hexo的定义是:
 
 > Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
 
@@ -52,7 +54,7 @@ hexo init之后生成的项目的目录结构如下：
 
 ## gitalk
 
-有了Hexo ＋ github pages，就已经可以制作并通过公开链接展示自己的博客了。然而分享出去的内容往往希望能得到读者的评论和反馈，于是我引入了gitalk作为博客的评论插件。
+有了Hexo ＋ github pages，就已经可以制作并通过公开链接展示自己的博客了。然而分享出去的内容往往希望能得到读者的评论和反馈，于是我引入了[gitalk](https://gitalk.github.io/)作为博客的评论插件。
 
 gitalk 是一个利用 Github API,基于 Github issue 和 Preact 开发的评论插件。他的主要特点就是使用Github登录，然后所有的评论都是提到了对应的issue中，非常简单方便。用以下代码就可以生成gitalk插件：
 
@@ -70,7 +72,7 @@ var gitalk = new Gitalk({
 gitalk.render('gitalk-container')
 ```
 
-不过在这之前是需要申请注册GitHub Application的，这样才能拿到上述代码中必须的参数`clientID`和`clientSecret`
+不过在这之前是需要申请注册[GitHub Application](https://github.com/settings/applications/new)的，这样才能拿到上述代码中必须的参数`clientID`和`clientSecret`
 
 ## 需要注意的地方
 

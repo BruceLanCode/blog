@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>原型和原型链 - Bruce&#39;s blog</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Bruce blog Font-end development,"> 
+    <meta name="description" content="Experience and thinking in Front-end development,
+以前对原型以及原型链一直理解不够，只是知道通过特定的模式实现继承，最近整理并记录一下对这方面的一些新的认识。
+概念首先必须说一下JavaScript中的继承：
+
+继承是OO语言中的一个最为人津津乐,"> 
+    <meta name="author" content="Bruce"> 
+    <link rel="alternative" href="atom.xml" title="Bruce&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.jpg"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Bruce&#39;s blog</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://www.brucecode.cn"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">原型和原型链</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">原型和原型链</h1>
+        <div class="stuff">
+            <span>五月 08, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/js/">js</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p><img src="/static/prototype/prototype.jpg" alt="JavaScript Object Layout"></p>
+<p>以前对原型以及原型链一直理解不够，只是知道通过特定的模式实现继承，最近整理并记录一下对这方面的一些新的认识。</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>首先必须说一下JavaScript中的继承：</p>
+<blockquote>
+<p>继承是OO语言中的一个最为人津津乐道的概念.许多OO语言都支持两种继承方式:接口继承和实现继承。接口继承只继承方法签名,而实现继承则继承实际的方法。由于js中函数没有签名,在ECMAScript中无法实现接口继承。ECMAScript只支持 <strong>实现继承</strong> ,而且其实现继承 主要是依靠 <strong>原型链</strong> 来实现的</p>
+</blockquote>
+<p>由此可见，在js中原型链是实现继承的主要方法。</p>
+<p>然后我们就要说到prototype（原型）：我们创建的每个函数都有一个prototype属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。换句话说就是可以让所有对象实例共享它所包含的属性和方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">fn.prototype.a = <span class="string">'aaaa'</span></span><br><span class="line"><span class="keyword">var</span> o1 = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="keyword">var</span> o2 = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(o1.a)</span><br><span class="line"><span class="comment">// 'aaaa'</span></span><br><span class="line"><span class="built_in">console</span>.log(o2.a)</span><br><span class="line"><span class="comment">// 'aaaa'</span></span><br></pre></td></tr></table></figure>
+<p>原型和实例的关系：</p>
+<blockquote>
+<p>每个构造函数都有一个原型对象(prototype),原型对象都包含一个指向构造函数的指针(constructor),而实例(instance)都包含一个指向原型对象的内部指针(__proto__)。</p>
+</blockquote>
+<p>下图以Objec构造函数为例：</p>
+<p><img src="/static/prototype/instance-fun-proto.jpg" alt="Object function"></p>
+<p>如果我们让原型对象等于另一个类型的实例，即另一个构造函数创建的对象实例，此时原型对象将包含一个指向另一个原型的指针，实例将在 <code>instance.__proto__.__proto__</code> 中找到这另一个原型的属性和方法(实例的 __proto__ 属性等于其构造函数的 prototype 属性)。如此层层递进，就构成了实例和原型的链条，即原型链。</p>
+<p>当然实例可以直接获取原型链中的属性和方法，不需要通过__proto__ 属性去访问。因为如果要试图引用对象的某个属性，会首先在对象内部属性中查找一遍，如果找不到，就会接着在__proto__ 对象中，也就是构造函数的原型对象(constructor.prototype)中去查找，直到Object.prototype。</p>
+<h2 id="确定原型和实例的关系"><a href="#确定原型和实例的关系" class="headerlink" title="确定原型和实例的关系"></a>确定原型和实例的关系</h2><p>使用原型链后，我们可以使用<code>instanceof</code>操作符来判断原型和实例的关系，如果某个构造函数出现在实例的原型链中，结果会返回为<code>true</code>，以上面的例子说明：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(o1 <span class="keyword">instanceof</span> fn)   <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(o1 <span class="keyword">instanceof</span> <span class="built_in">Function</span>) <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(o1 <span class="keyword">instanceof</span> <span class="built_in">Object</span>)   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="几个常见方法创建对象的原型链"><a href="#几个常见方法创建对象的原型链" class="headerlink" title="几个常见方法创建对象的原型链"></a>几个常见方法创建对象的原型链</h2><ul>
+<li>使用对象字面量创建的对象，其 <code>__proto__</code> 指向 <code>Object.prototype</code>。</li>
+<li>使用数组字面量创建的对象，其 <code>__proto__</code> 指向 <code>Array.prototype</code>。</li>
+<li>使用<code>function</code>关键字创建的对象，其 <code>__proto__</code> 指向 <code>Function.prototype</code>。</li>
+<li>使用js构造函数创建的对象，其 <code>__proto__</code> 指向该构造函数的 <code>prototype</code> 属性。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="comment">// 原型链: o ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="keyword">let</span> a = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];</span><br><span class="line"><span class="comment">// 原型链: a ---&gt; Array.prototype ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="comment">// 原型链: f ---&gt; Function.prototype ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="keyword">let</span> fun = <span class="keyword">new</span> <span class="built_in">Function</span>();</span><br><span class="line"><span class="comment">// 原型链: fun ---&gt; Function.prototype ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> foo = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="comment">// 原型链: foo ---&gt; Foo.prototype ---&gt; Object.prototype ---&gt; null</span></span><br></pre></td></tr></table></figure>
+<p>由此可见，<code>Object.prototype</code>就是原型链的顶层，所有对象都继承了它的属性和方法，而它的 <code>__proto__</code> 是 null。</p>
+<h2 id="一些值得一提的地方"><a href="#一些值得一提的地方" class="headerlink" title="一些值得一提的地方"></a>一些值得一提的地方</h2><ul>
+<li>大多数对象的 <code>__proto__</code>  是指向的是构造自己的函数的 <code>prototype</code>  对象，然而只有Function的 <code>__proto__</code> 指向了 <code>Function.prototype</code> ，即指向了自己的 <code>prototype</code>对象</li>
+<li>只有函数才有 <code>prototype</code> 属性，但并不是所有函数都有这个属性，<code>Function.prototype</code> 就是这样的函数：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype</span><br><span class="line"><span class="comment">// ƒ () &#123; [native code] &#125;</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.prototype</span><br><span class="line"><span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">let</span> fun = <span class="built_in">Function</span>.prototype.bind()</span><br><span class="line"><span class="comment">// ƒ () &#123; [native code] &#125;</span></span><br><span class="line">fun.prototype</span><br><span class="line"><span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>如果所有的函数都有 <code>prototype</code> 属性，那 <code>Function.prototype.prototype...</code> 将永无止尽。</p>
+<ul>
+<li>箭头函数没有 <code>prototype</code> 属性</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/506650377.mp3"></li>
+                    
+                        <li title="1" data-url="https://link.hhtjim.com/163/430685732.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="e36e2e5be97c29cb20cb" data-cs="fb99a700bd2a4265175a47693f85abe676182a8f" data-r="blog" data-o="BruceLanCode" data-a="BruceLanCode" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

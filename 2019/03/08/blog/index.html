@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>原型和原型链 - Bruce&#39;s blog</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Bruce blog Font-end development,"> 
+    <meta name="description" content="Experience and thinking in Front-end development,
+以前对原型以及原型链一直理解不够，只是知道通过特定的模式实现继承，最近整理并记录一下对这方面的一些新的认识。
+概念首先必须说一下JavaScript中的继承：
+
+继承是OO语言中的一个最为人津津乐,"> 
+    <meta name="author" content="Bruce"> 
+    <link rel="alternative" href="atom.xml" title="Bruce&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.jpg"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Bruce&#39;s blog</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://www.brucecode.cn"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">我终于也有自己的博客了</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">我终于也有自己的博客了</h1>
+        <div class="stuff">
+            <span>三月 08, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/博客/">博客</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/成长/">成长</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p><img src="/static/blog/Blog.jpg" alt="blog pictrue"></p>
+<p>很开心，酝酿了好一段时间之后，我终于也有自己的博客了。</p>
+<p>说起来我一直纠结于是否开始写点技术博客，想去写的理由单纯是看到大牛们都有这么做，而且可以自由做出自己喜欢的网站风格，然后把自己的想法分享给大家，感觉好酷，挺有意思的。</p>
+<p>但是，一想到自己工作经历尚浅，写一些别人写过的内容，而且还没别人写的好，就打消了这个念头。</p>
+<p>后来看了不少前辈们关于自己成长历程的文章，以及在几位腾讯的导师的启发解惑之后让我有了充足的理由和动力去折腾自己的博客：</p>
+<ol>
+<li><strong>检查自己的学习成果，加深对自以为掌握了的技术栈的理解</strong>。从学习效率上来说，听讲是学习效率最低的学习方式，属于被动学习，而马上应用或者教别人是最有效的学习方法，因为通过这种方式你会主动去查找更多的资料，重新去整理归纳这些知识，从而形成属于自己的理解。正如某位前辈说过的：“如果一件事情不能用通俗、简单的语言说出来或者写出来，证明你并没有全面地掌握或者掌握的深度不够”。而且，很多时候看是一回事，自己写又是另外一回事，仅仅是当做自己的学习日记藏在笔记本里是很难知道自己的理解是否正确，所以不如分享出来给大家看，这样也能得到更多的反馈，加深理解，对自己有一个更准确的定位；</li>
+</ol>
+<p><img src="/static/blog/LearningPyramid.png" alt="Learning Pyramid"></p>
+<ol>
+<li><strong>提高语言组织能力</strong>。写文章，你会去明确自己的主题，并组织语言去分点阐述突出重点。因为工作中有太多的沟通是轻重不分，想到什么就说什么，没有分点，没有优先级，没有重点，以至于让对方跟不上自己的思维，自己也get不到别人的点，所以我相信写博客对这方面是有帮助的。另外，自己以后总会有作为前辈带新人做事的时候，需要用自己的经验和理解来引导人家，如果总是一句“自己看文档”应付，不利于新人的成长，也不利于团队的协作；</li>
+<li><strong>提高圈子内的影响力</strong>。我的导师就鼓励我，有机会的话就在公司的乐享平台里多发些分享，创造机会让领导和大家都能看到自己的工作和技术水平，是非常有助于自己的成长的。而在公司之外，博客也是程序员的一张名片，让更多的人认识到你，进而收到意想不到的机会。</li>
+</ol>
+<p>最后，要成长到什么程度才有资格去开通自己的博客呢？一句话：“种一棵树最好的时间是十年前，而后是现在”，想的越多越迷茫，只有去做了，才知道有没有可行性，毕竟这事可没有任何风险，也许能打开新世界的大门。</p>
+<p>这第一篇文章是写给我自己的，虽然平时工作很忙，周末也没什么休息时间，但还是挤出时间开了个头，希望自己能坚持下来，并养成习惯延续下去。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/506650377.mp3"></li>
+                    
+                        <li title="1" data-url="https://link.hhtjim.com/163/430685732.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="e36e2e5be97c29cb20cb" data-cs="fb99a700bd2a4265175a47693f85abe676182a8f" data-r="blog" data-o="BruceLanCode" data-a="BruceLanCode" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

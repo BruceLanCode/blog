@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>原型和原型链 - Bruce&#39;s blog</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Bruce blog Font-end development,"> 
+    <meta name="description" content="Experience and thinking in Front-end development,
+以前对原型以及原型链一直理解不够，只是知道通过特定的模式实现继承，最近整理并记录一下对这方面的一些新的认识。
+概念首先必须说一下JavaScript中的继承：
+
+继承是OO语言中的一个最为人津津乐,"> 
+    <meta name="author" content="Bruce"> 
+    <link rel="alternative" href="atom.xml" title="Bruce&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.jpg"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Bruce&#39;s blog</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://www.brucecode.cn"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">搭建个人博客的点滴</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">搭建个人博客的点滴</h1>
+        <div class="stuff">
+            <span>三月 17, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/博客/">博客</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p><img src="/static/How_to_init_a_blog/blogging.jpg" alt="blog pictrue"></p>
+<p>利用工作之余的零散时间，搭建起了博客，看似简单的操作，但也还是花了一周多的时间去折腾，还真是很多东西是要通过实践才能得到更有触感的认识。所以这次就记录一下自己是怎么去完成这个网站的以及踩过哪些坑。</p>
+<h2 id="GitHub-Pages"><a href="#GitHub-Pages" class="headerlink" title="GitHub Pages"></a>GitHub Pages</h2><p>首先考虑的是自己的博客放在哪里展示博客。本来一开始的时候是想在阿里云或者腾讯云购买一个服务器然后从零搭建一个属于自己的网站的，但是发现等了很久也没有特别有力的优惠活动，而且仔细想想目前也就只是想做自己的一个博客而已，只是静态文件的话其实利用GitHub Pages的功能也是可以了。所以就确定了运用github仓库来对外展示的自己博客的方案。</p>
+<p>GitHub Pages的服务是在项目仓库的Settings中可以设置，可以将项目源码托管在github中，然后通过设置相应的GitHub Pages功能来创建站点，一般情况下是设置master分支作为GitHub Pages的站点，设置成功后你的项目就可以通过 <code>https://username.github.io/Repositoryname</code> 来访问到项目master分支的文件了，非常简单方便。</p>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>确定了用什么展示html之后，那用什么生成html呢？于是我选择了<a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>作为自己博客的框架，官网对Hexo的定义是:</p>
+<blockquote>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+</blockquote>
+<p>可见Hexo本身就有博客系统的特性，而促使我选择它的原因主要是：</p>
+<ol>
+<li>非常简单易懂的几个命令就能快速初始化，生成和发布项目；</li>
+<li>可以用markdown来编写文章内容，简洁高效，省去了很多排版之类的功夫；</li>
+<li>有很多漂亮的主题。对于像我一样希望有个个性化的博客网站，但又不想花太多时间自己去制作主题的话，可以在官网的主题专区里去找自己喜欢的主题风格。我在那就发现了好几个挺喜欢的主题，可惜并不能全都要，只好选了最喜欢的那个</li>
+</ol>
+<p>Hexo的安装使用非常简单，只需要像官方首页一样执行以下几个命令就可以搭建起博客网页了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init blog</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>hexo init之后生成的项目的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml      // 站点配置文件</span><br><span class="line">├── db.json          // 缓存文件</span><br><span class="line">├── node_modules     // 安装的插件以及hexo所需的一些nodejs模块</span><br><span class="line">├── package.json     // 项目的依赖文件</span><br><span class="line">├── scaffolds        // 模版文件</span><br><span class="line">├── source           // 源文件，用来存放你的文章 md 文件</span><br><span class="line">└── themes           // 主题文件</span><br></pre></td></tr></table></figure>
+<p>平时的操作只需要执行 <code>hexo new [layout] &lt;title&gt;</code>新建一篇文章，然后在source目录下会自动生成对应一个md文件，只需要在文件用markdown编写内容就可以了。完成之后便可以通过<code>hexo deploy</code>命令部署到Github Pages设置的分支即可。更多配置等其他内容都在文档中可以找到，这里也不作赘述，会在后面再讲一下这中间需要注意的点和踩到的坑。</p>
+<h2 id="gitalk"><a href="#gitalk" class="headerlink" title="gitalk"></a>gitalk</h2><p>有了Hexo ＋ github pages，就已经可以制作并通过公开链接展示自己的博客了。然而分享出去的内容往往希望能得到读者的评论和反馈，于是我引入了<a href="https://gitalk.github.io/" target="_blank" rel="noopener">gitalk</a>作为博客的评论插件。</p>
+<p>gitalk 是一个利用 Github API,基于 Github issue 和 Preact 开发的评论插件。他的主要特点就是使用Github登录，然后所有的评论都是提到了对应的issue中，非常简单方便。用以下代码就可以生成gitalk插件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gitalk = <span class="keyword">new</span> Gitalk(&#123;</span><br><span class="line">  clientID: <span class="string">'GitHub Application Client ID'</span>,</span><br><span class="line">  clientSecret: <span class="string">'GitHub Application Client Secret'</span>,</span><br><span class="line">  repo: <span class="string">'GitHub repo'</span>,</span><br><span class="line">  owner: <span class="string">'GitHub repo owner'</span>,</span><br><span class="line">  admin: [<span class="string">'GitHub repo owner and collaborators, only these guys can initialize github issues'</span>],</span><br><span class="line">  id: location.pathname,      <span class="comment">// Ensure uniqueness and length less than 50</span></span><br><span class="line">  distractionFreeMode: <span class="literal">false</span>  <span class="comment">// Facebook-like distraction free mode</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">gitalk.render(<span class="string">'gitalk-container'</span>)</span><br></pre></td></tr></table></figure>
+<p>不过在这之前是需要申请注册<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">GitHub Application</a>的，这样才能拿到上述代码中必须的参数<code>clientID</code>和<code>clientSecret</code></p>
+<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方"></a>需要注意的地方</h2><p>最后，说一下自己在搭建博客的这个过程中都踩过的坑和需要注意的地方吧：</p>
+<ol>
+<li>在设置GitHub Pages的时候，github会默认把项目发布到<code>https://username.github.io/Repositoryname</code>这个url上供互联网访问，但我更希望能通过自己的域名来访问，所以我就在阿里云上购买了一个域名，除了要在域名解析的时候通过CNAME类型指向到<code>username.github.io</code>,还要在GitHub Pages里设置Custom domain，保存自己的域名。需要把这两边的工作都做了才能通过自己的域名访问到自己的博客;</li>
+<li>如果设置了自己的域名访问，项目的根目录将发生了变化，由原来的<code>/Repositoryname/</code>变成了<code>/</code>，所以_config.yml文件中url和root参数配置都要修改成对应的个性化域名和<code>/</code>，不然原本的资源路径都会报错；</li>
+<li>同样因为设置了自己的域名，对应OAuth Apps中的Homepage URL和Authorization callback URL两个配置项都要修改成自己的域名，不然gitalk会授权失败，不能正常食用；</li>
+<li>Hexo的部署非常方便，是可以在一个分支上进行写作，在然后部署到另一条分支上（我就是在hexo分支上写作，部署到master分支，对应GitHub Pages设置的分支）。所以千万不要在部署配置中将branch设置填写为自己当前进行写作的分支，否则Hexo会将生成的站点文件推送至该分支下，并且完全覆盖该分支下的已有内容。如果部署一直出问题的话，可以尝试删掉已经生成的.deploy_git文件，再执行<code>hexo deploy</code>命令试一试。</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/506650377.mp3"></li>
+                    
+                        <li title="1" data-url="https://link.hhtjim.com/163/430685732.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="e36e2e5be97c29cb20cb" data-cs="fb99a700bd2a4265175a47693f85abe676182a8f" data-r="blog" data-o="BruceLanCode" data-a="BruceLanCode" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
